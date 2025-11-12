@@ -1,45 +1,40 @@
 import {
   COMMENTS,
-  NAMES,
-  DESCRIPTIONS,
-  PHOTO_COUNT,
-  PHOTO_ID_RANGE,
-  URL_RANGE,
+  PHOTOS_COUNT,
+  PHOTO_IDS_RANGE,
+  URLS_RANGE,
   LIKES_RANGE,
   COMMENTS_COUNT_RANGE,
-  COMMENT_ID_RANGE,
-  COMMENT_AVATAR_RANGE,
+  COMMENT_AVATARS_RANGE,
 } from './helpers/consts.js';
 import {
+  getNumberInRange,
   getRandomArrayElement,
-  getRandomNumber,
-  getRandomNumberFromInteger,
+  getRandomNumberInRange,
+  getRandomInteger,
+  initData,
+  getSequentialNumbers,
 } from './helpers/helpers.js';
 
+const {comments, emails} = await initData(COMMENTS_COUNT_RANGE.MAX);
+
 // Photos data generation
-const getPhotoId = getRandomNumberFromInteger(
-  PHOTO_ID_RANGE.min,
-  PHOTO_ID_RANGE.max,
-);
-const getPhotoPath = getRandomNumberFromInteger(URL_RANGE.min, URL_RANGE.max);
-const getLikes = getRandomNumber(LIKES_RANGE.min, LIKES_RANGE.max);
-const getDescription = () => getRandomArrayElement(DESCRIPTIONS);
-const getCommentsCount = getRandomNumber(
-  COMMENTS_COUNT_RANGE.min,
-  COMMENTS_COUNT_RANGE.max,
+const getPhotoId = getNumberInRange(PHOTO_IDS_RANGE.MIN, PHOTO_IDS_RANGE.MAX);
+const getPhotoPath = getNumberInRange(URLS_RANGE.MIN, URLS_RANGE.MAX);
+const getLikes = () => getRandomNumberInRange(LIKES_RANGE.MIN, LIKES_RANGE.MAX);
+const getDescription = () => getRandomArrayElement(comments);
+const getCommentsCount = () => getRandomNumberInRange(
+  COMMENTS_COUNT_RANGE.MIN,
+  COMMENTS_COUNT_RANGE.MAX,
 );
 
 // Comments data generation
-const getCommentId = getRandomNumberFromInteger(
-  COMMENT_ID_RANGE.min,
-  COMMENT_ID_RANGE.max,
-);
-const getCommentAvatarPath = getRandomNumberFromInteger(
-  COMMENT_AVATAR_RANGE.min,
-  COMMENT_AVATAR_RANGE.max,
-);
+const getCommentId = getSequentialNumbers();
+const getCommentAvatarPath = () =>
+  getRandomInteger(COMMENT_AVATARS_RANGE.MIN, COMMENT_AVATARS_RANGE.MAX);
+
 const getCommentText = () => getRandomArrayElement(COMMENTS);
-const getCommentAuthor = () => getRandomArrayElement(NAMES);
+const getCommentAuthor = () => getRandomArrayElement(emails);
 
 const createComment = () => ({
   id: getCommentId(),
@@ -59,7 +54,7 @@ const createPhotoData = () => ({
   comments: createComments(),
 });
 
-const photosData = Array.from({ length: PHOTO_COUNT }, createPhotoData);
+const photosData = Array.from({ length: PHOTOS_COUNT }, createPhotoData);
 
 // eslint-disable-next-line no-console
-console.log(photosData.sort((a, b) => a.id - b.id));
+console.log(photosData);
