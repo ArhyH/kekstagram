@@ -3,7 +3,7 @@ import { createFragment, getElementFromTemplate } from '../../helpers/common';
 const thumbnailsContainerNode = document.querySelector('.pictures');
 const thumbnailTemplateNode = getElementFromTemplate('picture');
 
-const createThumbnail = ({ id, comments, description, likes, url }) => {
+function Thumbnail({ id, comments, description, likes, url }) {
   const thumbnailNode = thumbnailTemplateNode.cloneNode(true);
   const imgNode = thumbnailNode.querySelector('.picture__img');
 
@@ -15,14 +15,14 @@ const createThumbnail = ({ id, comments, description, likes, url }) => {
     comments.length;
 
   return thumbnailNode;
-};
+}
 
 const renderThumbnails = (thumbnails) => {
   const fragment = createFragment();
   const thumbnailsArray = [];
 
   thumbnails.forEach((element) => {
-    const thumbnailElement = createThumbnail(element);
+    const thumbnailElement = new Thumbnail(element);
 
     fragment.append(thumbnailElement);
     thumbnailsArray.push(thumbnailElement);

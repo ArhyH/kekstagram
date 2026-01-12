@@ -12,7 +12,7 @@ let renderedCount = 0;
 
 const clearComments = () => commentsContainerNode.replaceChildren();
 
-const createComment = ({ avatar, name, message }) => {
+function Comment({ avatar, name, message }) {
   const commentNode = commentTemplateNode.cloneNode(true);
   const imgNode = commentNode.querySelector('.social__picture');
 
@@ -21,18 +21,18 @@ const createComment = ({ avatar, name, message }) => {
   imgNode.alt = name;
 
   return commentNode;
-};
+}
 
-const renderCommentsChunk = () => {
+function renderCommentsChunk() {
   const fragment = createFragment();
 
   const end = Math.min(
     renderedCount + COMMENTS_RENDER_COUNT,
-    currentComments.length,
+    currentComments.length
   );
 
   for (let i = renderedCount; i < end; i++) {
-    fragment.append(createComment(currentComments[i]));
+    fragment.append(new Comment(currentComments[i]));
   }
 
   commentsContainerNode.append(fragment);
@@ -40,11 +40,11 @@ const renderCommentsChunk = () => {
 
   loadMoreNode.classList.toggle(
     'hidden',
-    renderedCount === currentComments.length,
+    renderedCount === currentComments.length
   );
 
   return renderedCount;
-};
+}
 
 const initComments = (comments) => {
   currentComments = comments;
